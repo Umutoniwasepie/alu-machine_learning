@@ -1,7 +1,7 @@
-##linear_algebra##
+**linear_algebra**
 This directory contains work with vectors and matrices:
 
-###Mandatory Tasks:###
+***Mandatory Tasks:***
 
 Slice Me Up
 Complete given source code to slice an array into different sections within 8 lines of code.
@@ -34,7 +34,7 @@ Write a function that contatenates two matrices along a specific axis using nump
 Saddle Up
 Write a function that performs matrix multiplication using numpy.ndarray.
 
-###Advanced Tasks:###
+***Advanced Tasks:***
 Slice Like A Ninja
 Write a function that slices a matrix along specific axes using numpy.ndarray.
 The Whole Barn
