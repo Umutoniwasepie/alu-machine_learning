@@ -1,59 +1,53 @@
 #!/usr/bin/env python3
-"""
-Defines function that updates the weights with Dropout regularization
-using gradient descent
-"""
-
+'''
+Gradient Descent with Dropout
+'''
 import numpy as np
 
 
 def dropout_gradient_descent(Y, weights, cache, alpha, keep_prob, L):
-    """
-    Updates the weights with Dropout regularization using gradient descent
+    '''
+    Args:
+        *Y is a one-hot numpy.ndarray of shape (classes, m)
+            that contains the correct labels for the data
+            *classes is the number of classes
+            *m is the number of data points
 
-    parameters:
-        Y [one-hot numpy.ndarray of shape (classes, m)]:
-            contains the correct labels for the data
-            classes: number of classes
-            m: number of data points
-        weights [dict]:
-            contains the weights and biases of the network
-        cache [dict]:
-            contains the outputs and dropout masks of each layer
-        alpha [float]:
-            learning rate
-        keep_prob [float]:
-            the probability that a node will be kept
-        L [int]:
-            number of layers in the network
+        *weights is a dictionary of the weights and biases of
+            the neural network
 
-    all layers should use the tanh activation function except last
-    last layer should use softmax activation function
+        *keep_prob is the probability that a node will be kept
 
-    the weights of the network should be updated in place
-    """
-    m = Y.shape[1]
-    back = {}
-    for index in range(L, 0, -1):
-        A = cache["A{}".format(index - 1)]
-        if index == L:
-            back["dz{}".format(index)] = (cache["A{}".format(index)] - Y)
-            dz = back["dz{}".format(index)]
+        *cache is a dictionary of the outputs and dropout masks
+            of each layer of the neural network
 
-        else:
-            dz_prev = back["dz{}".format(index + 1)]
-            A_current = cache["A{}".format(index)]
-            back["dz{}".format(index)] = (
-                np.matmul(W_prev.transpose(), dz_prev) *
-                (A_current * (1 - A_current)))
-            dz = back["dz{}".format(index)]
-            dz *= cache["D{}".format(index)]
+        *alpha is the learning rate
+
+        *lambtha is the L2 regularization parameter
+
+        *L is the number of layers of the network
+
+        *The neural network uses tanh activations on each layer
+        except the last, which uses a softmax activation
+
+        *The weights and biases of the network should be updated in place
+    '''
+    v_weights = weights.copy()
+    classes, m = Y.shape
+    dz = cache["A"+str(L)] - Y
+    for i in range(L, 0, -1):
+        A_i = "A"+str(i-1)
+        wi = "W"+str(i)
+        bi = "b"+str(i)
+        dw = ((1/m) * np.matmul(
+            dz, cache["A"+str(i-1)].T))
+        db = (1/m) * np.sum(dz, axis=1, keepdims=True)
+        weights[wi] = weights[wi] - (dw * alpha)
+        weights[bi] = weights[bi] - (db * alpha)
+
+        dz = np.matmul(v_weights[wi].T, dz) * (
+            1 - np.power(cache[A_i], 2))
+        if i > 1:
+            dz *= cache["D"+str(i - 1)]
             dz /= keep_prob
-
-        dW = (1 / m) * (np.matmul(dz, A.transpose()))
-        db = (1 / m) * np.sum(dz, axis=1, keepdims=True)
-        W_prev = weights["W{}".format(index)]
-        weights["W{}".format(index)] = (
-            weights["W{}".format(index)] - (alpha * dW))
-        weights["b{}".format(index)] = (
-            weights["b{}".format(index)] - (alpha * db))
+    return weights
