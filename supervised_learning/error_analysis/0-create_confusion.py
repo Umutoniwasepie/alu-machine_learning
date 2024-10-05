@@ -12,4 +12,3 @@ def create_confusion_matrix(labels, logits):
         confusion_matrix[np.where(labels[i, :] == 1),
                          np.where(logits[i, :] == 1)] += 1
     return confusion_matrix
-
