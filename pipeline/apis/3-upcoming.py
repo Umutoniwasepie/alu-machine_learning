@@ -35,7 +35,7 @@ def get_upcoming_launch():
         launchpad_name = launchpad['name']
         launchpad_locality = launchpad['locality']
 
-        # Convert and format date to match expected output with time zone offset
+        # format date to match expected output with time zone offset
         date_local = datetime.fromisoformat(upcoming_launch['date_local'])
         formatted_date = date_local.strftime('%Y-%m-%dT%H:%M:%S%z')
         # Insert colon in the timezone offset for readability
