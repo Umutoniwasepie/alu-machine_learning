@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
-"""
-Prints the location of a specific user
-"""
+
+"""Script that prints the location of a specific user"""
 
 import requests
 import sys
 import time
-
 
 if __name__ == "__main__":
     res = requests.get(sys.argv[1])
@@ -15,10 +13,10 @@ if __name__ == "__main__":
         rate_limit = int(res.headers.get('X-Ratelimit-Reset'))
         current_time = int(time.time())
         diff = int((rate_limit - current_time) / 60)
-        print('Reset in {} min'.format(int(diff)))
-
+        print(f'Reset in {diff} min')
     elif res.status_code == 404:
         print("Not found")
     elif res.status_code == 200:
         res = res.json()
-        print(res['location'])
+        location = res.get('location', 'Location not available')
+        print(location)
