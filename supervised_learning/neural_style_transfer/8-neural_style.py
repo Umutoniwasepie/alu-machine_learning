@@ -85,7 +85,7 @@ class NST:
         if style_h <= 0 or style_w <= 0 or style_c != 3:
             raise TypeError(
                 "style_image must be a numpy.ndarray with shape (h, w, 3)")
-[O        if content_h <= 0 or content_w <= 0 or content_c != 3:
+        if content_h <= 0 or content_w <= 0 or content_c != 3:
             raise TypeError(
                 "content_image must be a numpy.ndarray with shape (h, w, 3)")
         if (type(alpha) is not float and type(alpha) is not int) or alpha < 0:

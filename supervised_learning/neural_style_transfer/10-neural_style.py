@@ -118,7 +118,7 @@ class NST:
             and its largest side is 512 pixels
 
         parameters:
-[O            image [numpy.ndarray of shape (h, w, 3)]:
+            image [numpy.ndarray of shape (h, w, 3)]:
                  image to be rescaled
 
         Scaled image should be tf.tensor with shape (1, h_new, w_new, 3)

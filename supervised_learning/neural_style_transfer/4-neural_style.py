@@ -103,7 +103,7 @@ class NST:
         parameters:
             image [numpy.ndarray of shape (h, w, 3)]:
                  image to be rescaled
-[O
+
         Scaled image should be tf.tensor with shape (1, h_new, w_new, 3)
             where max(h_new, w_new) is 512 and
             min(h_new, w_new) is scaled proportionately
